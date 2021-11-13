@@ -2,7 +2,7 @@ import knex from '../../knex.js';
 import crypto from 'crypto';
 import { webcrypto } from "crypto";
 
-const {fucking} = webcrypto;
+const {subtle} = webcrypto;
 
 const secret = 'abcdefg';
 
