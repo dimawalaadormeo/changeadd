@@ -29,6 +29,15 @@ import * as logininfo from "./knex/models/logininfo.js";
 import * as complogininfo from "./knex/models/complogininfo.js";
 import bodyParser from "body-parser";
 
+
+import   EmailSender  from "./tools/emailer.js"
+import e from "express";
+
+
+
+EmailSender(undefined,undefined,"moshe_rules@yahoo.com","mosheadormeo@gmail.com","Checking email sending","LOREM IPSUM","yahoo");
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
