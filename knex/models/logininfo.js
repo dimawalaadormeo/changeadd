@@ -1,6 +1,7 @@
 import knex from '../../knex.js';
 import crypto from 'crypto';
 import { webcrypto } from "crypto";
+import brcypt from "bcryptjs";
 
 const {subtle} = webcrypto;
 
@@ -41,11 +42,15 @@ export async function del(filter) {
 async function SHA256 (input) {
     let buffer = new TextEncoder("utf-8").encode(input);
    // var subtle = crypto.;
-     let hash_buffer = await  subtle.digest("SHA-256", buffer);
+   // let hash_buffer = await  subtle.digest("SHA-256", buffer);
    //let hash_buffer = await crypto.sub
-    let hash_array = Array.from(new Uint8Array(hash_buffer));
-    let hash_hex_str = hash_array.map(byte =>
-      ("00" + byte.toString(16)).slice(-2)).join("");
+    //let hash_array = Array.from(new Uint8Array(hash_buffer));
+    //double hash it with bcrypt
+    //no plaintext will be passed on network
+    let hash_hex_str = await brcypt.hash(input,10);
+   // let hash_hex_str = hash_array.map(byte =>
+   //   ("00" + byte.toString(16)).slice(-2)).join("");
+
     return (hash_hex_str);
    }
  

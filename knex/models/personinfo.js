@@ -11,7 +11,7 @@ export const tableName = "personinformation";
 
 export async function checkPassword(username, password) {
     let data = knex(tableName).select("logininformation.password").where("username", "=", username)
-.innerJoin("logininformation", "personinformation.PID", "logininformation.PID");
+.innerJoin("logininformation", "personinformation.PID", "logininformation.PID").first();
     console.log(data);
     return data;
 }

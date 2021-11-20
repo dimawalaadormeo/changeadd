@@ -16,7 +16,7 @@ const options = {
 }
 const app = express();
 const router = express.Router();
-
+import verifyAccessToken from "./middleware/authorization.js" ;
 import * as compinfo from "./knex/models/compinfo.js";
 import * as personinfo from "./knex/models/personinfo.js";
 import * as comppersonaddrel from "./knex/models/comppersonaddrel.js";
@@ -28,18 +28,21 @@ import * as personidrel from "./knex/models/personidrel.js";
 import * as logininfo from "./knex/models/logininfo.js";
 import * as complogininfo from "./knex/models/complogininfo.js";
 import bodyParser from "body-parser";
+import login from "./controllers/logincontroller.js";
 
-
-import   EmailSender  from "./tools/emailer.js"
+//import   EmailSender  from "./tools/emailer.js"
 import e from "express";
 
 
 
-EmailSender(undefined,undefined,"moshe_rules@yahoo.com","mosheadormeo@gmail.com","Checking email sending","LOREM IPSUM","yahoo");
+//EmailSender(undefined,undefined,"moshe_rules@yahoo.com","mosheadormeo@gmail.com","Checking email sending","LOREM IPSUM","yahoo");
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
+app.post("/login", login);
 
 app.post('/addcompinfo', async (req, res) => {
     let company = req.body.company;
@@ -255,8 +258,9 @@ app.post('/addpersonidrel', async (req, res) => {
     res.send("ok");
 });
 
-app.post('/addpersoninfo', async (req, res) => {
+app.post('/addpersoninfo', verifyAccessToken,async (req, res) => {
     let personInformation = req.body.personInformation;
+    console.log(req.body);
     await personinfo.add(personInformation);
     res.send("ok");
 });
@@ -276,6 +280,8 @@ app.get('/:CID/:username/:password', async (req, res) => {
       }
 
 });
+
+
 
 app.get('/:field/:id', async (req, res) => { //for testing to make sure find is working
     
